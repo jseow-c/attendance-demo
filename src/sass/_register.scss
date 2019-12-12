@@ -1,0 +1,11 @@
+.card-register {
+  @extend %wh-full;
+  padding: 3.5vmin;
+  margin-top: 0.5em;
+}
+
+.panel-block.person {
+  &:hover {
+    background: #e8e8e8;
+  }
+}

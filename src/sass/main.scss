@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+// update family font for bulma
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap");
+$family-sans-serif: "Lato", sans-serif;
+
+// import bulma
+@import "../../node_modules/bulma/bulma.sass";
+
+// custom
+@import "media";
+@import "font";
+@import "typography";
+@import "body";
+@import "register";
+@import "start";
+
+.container-body {
+  padding: 4vmin;
+}
+
+.card-attendence-list {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  overflow: scroll;
+  padding-bottom: 500px;
+  .card-attendence {
+    width: 100px;
+    font-size: 0.75em;
+    margin: 10px;
+    border-radius: 20px;
+    .card-image {
+      img {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        width: 100px;
+        height: 75px;
+        object-fit: cover;
+        object-position: center top;
+      }
+    }
+  }
+}

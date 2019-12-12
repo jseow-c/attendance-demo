@@ -1,0 +1,95 @@
+.start-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 100;
+  opacity: 1;
+
+  background: #fff;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &.loading {
+    justify-content: center;
+  }
+
+  .start-modal-bg {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+  }
+  .start-modal {
+    padding: 50px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transition: all 0.4s;
+    &.hide {
+      transform: translateX(355px);
+    }
+  }
+
+  .placeholder {
+    height: 10%;
+  }
+
+  .loading {
+    width: 400px;
+  }
+  .logo {
+    width: 100px;
+    margin-right: 25px;
+  }
+  .button {
+    transition: all 0.4s;
+  }
+  .start-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 70%;
+
+    .card-start {
+      width: 145px;
+      height: 135px;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-content: center;
+      text-align: center;
+      padding: 25px;
+      margin: 10px;
+      border-radius: 15px;
+      transition: all 0.3s;
+      cursor: pointer;
+      i {
+        font-size: 2.25em;
+      }
+      .card-name {
+        margin-top: 0.75em;
+      }
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+    &.mode-delete {
+      .card-start:hover {
+        transform: scale(1);
+        background: #ffaaaa;
+      }
+      .card-start.card-add {
+        cursor: not-allowed;
+      }
+    }
+  }
+}
