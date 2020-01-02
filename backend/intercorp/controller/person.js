@@ -1,47 +1,65 @@
 const axios = require("axios");
-const misc = require("../../misc");
+const sharp = require("sharp");
 const options = require("../options");
 
-const { fullOverwrite } = misc;
-const overwrite = fullOverwrite("intercorp.json");
-
 const { baseUrl, headers } = options;
-const collectionId = process.env.COLLECTION_ID;
 
-exports.list = (req, res, data) => {
-  return res.json(data);
+exports.list = async (req, res) => {
+  const collection_id = req.params.collection_id;
+  const url = `${baseUrl}/persons/${collection_id}`;
+  const options = { headers };
+  const persons = await axios.get(url, options);
+  return res.json(persons.data.response);
 };
 
-exports.create = async (req, res, data) => {
-  const name = req.body.name;
+const resizeBase64 = async base64Image => {
+  let parts = base64Image.split(";");
+  let imageData = parts[1].split(",")[1];
 
-  if (!(name in data)) {
-    const url = `${baseUrl}/person`;
-    const options = { headers };
-    const postData = {
-      name: name,
-      person_id: `${name}Id`,
-      collection_id: collectionId
-    };
-    await axios.post(url, postData, options);
-    data[name] = { name, id: `${name}Id` };
-    overwrite(data);
-
-    return res.json(data[name]);
-  } else return res.status(500).send("Name already exists.");
+  var buffer = new Buffer.from(imageData, "base64");
+  const resizedBuffer = await sharp(buffer)
+    .resize({ width: 350 })
+    .toBuffer();
+  return resizedBuffer.toString("base64");
 };
 
-exports.delete = async (req, res, data) => {
-  const name = req.body.name;
+exports.create = async (req, res) => {
+  const collection_id = req.params.collection_id;
+  const person_name = req.body.name;
+  const image = req.body.image;
+  const person_id = `${person_name.replace(/\s+/g, "")}Id`;
+  const options = { headers };
 
-  if (name in data) {
-    const personData = JSON.parse(JSON.stringify(data[name]));
-    const url = `${baseUrl}/person/${collectionId}/${name}Id`;
-    const options = { headers };
-    await axios.delete(url, options);
-    delete data[name];
-    overwrite(data);
+  const url = `${baseUrl}/enrollment`;
+  const images = await Promise.all([resizeBase64(image)]);
+  const postData = { images, person_name, person_id, collection_id };
+  await axios.post(url, postData, options);
 
-    return res.json(personData);
-  } else return res.status(500).send("Name already exists.");
+  const personUrl = `${baseUrl}/person/${collection_id}/${person_id}`;
+  const response = await axios.get(personUrl, options);
+
+  return res.json(response.data.response);
+};
+
+exports.delete = async (req, res) => {
+  const collection_id = req.params.collection_id;
+  const person_id = req.params.person_id;
+
+  const url = `${baseUrl}/person/${collection_id}/${person_id}`;
+  const options = { headers };
+  await axios.delete(url, options);
+  return res.json({ id: person_id });
+};
+
+exports.compare = async (req, res) => {
+  const collection_id = req.params.collection_id;
+  const image = req.body.image;
+  const options = { headers };
+
+  const url = `${baseUrl}/search`;
+  const images = await Promise.all([resizeBase64(image)]);
+  const postData = { images, collection_id };
+  const response = await axios.post(url, postData, options);
+
+  return res.json(response.data.response);
 };

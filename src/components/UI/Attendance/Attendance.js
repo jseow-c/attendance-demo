@@ -1,44 +1,33 @@
 import React, { useContext } from "react";
-import UIMerakiForm from "./Form/Form";
 import { StoreContext } from "../../../context";
+import UIAttendanceList from "./List";
 
 const classes = {
   active: "nav-title title-with-subtitles light-bold",
   notActive: "nav-title title-with-subtitles light-bold muted"
 };
 
-const UIMeraki = () => {
+const UIAttendance = () => {
   const {
-    collectionStore: [collection]
+    collectionStore: [collection],
+    peopleStore: [people]
   } = useContext(StoreContext);
   const collectionExist = Object.keys(collection).length > 0;
 
   return (
-    <div className="card card-register">
+    <div className="card card-register card-none">
       <div className="card-content" style={{ height: "100%" }}>
         <div className="nav">
           <h4 className={collectionExist ? classes.active : classes.notActive}>
-            Meraki Camera
+            Attendance
           </h4>
         </div>
         <div className="main-content">
-          {collectionExist && <UIMerakiForm />}
-          {!collectionExist && (
-            <div
-              style={{
-                display: "flex",
-                height: "50vmin",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              No collection selected.
-            </div>
-          )}
+          {people.length > 0 && <UIAttendanceList />}
         </div>
       </div>
     </div>
   );
 };
 
-export default UIMeraki;
+export default UIAttendance;

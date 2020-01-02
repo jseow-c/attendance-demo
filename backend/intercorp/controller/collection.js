@@ -13,13 +13,11 @@ exports.list = async (req, res) => {
 exports.create = async (req, res) => {
   const url = `${baseUrl}/collection`;
   const name = req.body.name;
+  const id = `${name.replace(/\s+/g, "")}Id`;
   const options = { headers };
-  const postData = {
-    name: name,
-    id: `${name}Id`
-  };
-  const collections = await axios.post(url, postData, options);
-  return res.json(collections.data.response);
+  const postData = { name, id };
+  const response = await axios.post(url, postData, options);
+  return res.json(response.data.response);
 };
 
 exports.delete = async (req, res) => {

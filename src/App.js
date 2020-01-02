@@ -1,29 +1,21 @@
-import React, { useState } from "react";
-import UICollection from "./components/UI/Collection/Collection";
+import React from "react";
+import UISide from "./components/UI/Side/Side";
 import UIMeraki from "./components/UI/Meraki/Meraki";
-import UIAttendenceList from "./components/UI/Attendence/List";
-import UIStart from "./components/UI/Start/Start";
+import UIAttendance from "./components/UI/Attendance/Attendance";
 
 const App = () => {
-  const [collection, setCollection] = useState(null);
-  const [collectionModal, setCollectionModal] = useState(true);
   return (
     <div>
-      <UIStart
-        setCollection={setCollection}
-        hide={!collectionModal}
-        setCollectionModal={setCollectionModal}
-      />
       <div className="container is-fluid wh-full">
         <div className="columns wh-full">
           <div className="column is-one-third wh-full">
-            <UICollection />
+            <UISide />
           </div>
-          <div className="column wh-full">
-            <div className="container-body">
-              <UIMeraki />
-              <UIAttendenceList />
-            </div>
+          <div className="column is-one-third wh-full">
+            <UIMeraki />
+          </div>
+          <div className="column is-one-third wh-full">
+            <UIAttendance />
           </div>
         </div>
       </div>

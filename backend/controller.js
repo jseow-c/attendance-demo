@@ -16,12 +16,12 @@ exports.collection_create = (req, res) => collectionController.create(req, res);
 exports.collection_delete = (req, res) => collectionController.delete(req, res);
 
 // Intercorp Person Controllers
-exports.person_list = (req, res) =>
-  personController.list(req, res, intercorpData);
-exports.person_create = (req, res) =>
-  personController.create(req, res, intercorpData);
-exports.person_delete = (req, res) =>
-  personController.delete(req, res, intercorpData);
+exports.person_list = (req, res) => personController.list(req, res);
+exports.person_create = (req, res) => personController.create(req, res);
+exports.person_delete = (req, res) => personController.delete(req, res);
+
+// Intercorp Compare
+exports.person_compare = (req, res) => personController.compare(req, res);
 
 // Intercorp Face Controllers
 exports.face_create = (req, res) =>
