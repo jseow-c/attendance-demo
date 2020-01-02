@@ -2,6 +2,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const bodyParser = require("body-parser");
 
 // start express app
@@ -21,6 +22,12 @@ app.use("/images", express.static("img"));
 //load from router
 const indexRouter = require("./backend/router");
 app.use("/", indexRouter);
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/dashboard", function(req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 // Listening for Express Server
 app.listen(process.env.SERVER_PORT, function() {
