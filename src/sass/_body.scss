@@ -16,3 +16,23 @@ body {
 #root {
   @extend %wh-full;
 }
+
+.column-mobile {
+  width: 350px !important;
+  padding: 0.75rem 0;
+  margin: auto;
+}
+
+.columns-mobile {
+  justify-content: center;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.container.is-fluid {
+  @include mobile {
+    padding: 0 12.5px;
+    width: 350px;
+    margin: 0;
+  }
+}

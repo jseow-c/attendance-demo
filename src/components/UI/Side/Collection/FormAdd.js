@@ -48,9 +48,9 @@ const UISideCollectionFormAdd = ({ closeModal }) => {
       const postData = {
         name
       };
-      await axios.post(url, postData, options);
+      const response = await axios.post(url, postData, options);
       setLoading(false);
-      setCollectionList(collectionList.concat([{ name, id: `${name}Id` }]));
+      setCollectionList(collectionList.concat([response.data]));
       closeModal();
       setTimeout(() => {
         setName("");
@@ -68,8 +68,8 @@ const UISideCollectionFormAdd = ({ closeModal }) => {
           marginBottom: "3em"
         }}
       >
-        <h3 class="light-bold">New Collection</h3>
-        <button class="delete is-large" onClick={closeModal}></button>
+        <h3 className="light-bold">New Collection</h3>
+        <button className="delete is-large" onClick={closeModal}></button>
       </div>
       <div className="field">
         <label className="label">Collection Name</label>

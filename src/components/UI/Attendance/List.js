@@ -20,8 +20,6 @@ const UIAttendanceList = () => {
           key={item.person_id}
           item={item}
           cardVariant={cardVariant}
-          enableDelete={false}
-          clickDelete={null}
         />
       ))}
     </motion.div>

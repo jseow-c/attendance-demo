@@ -9,7 +9,9 @@ import LoadingGif from "../../../../img/loading.gif";
 const UISidePeople = ({ setNav }) => {
   const {
     collectionStore: [collection],
-    peopleStore: [, setPeople]
+    peopleStore: [, setPeople],
+    stageStore: [, setStage],
+    isMobile
   } = useContext(StoreContext);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -48,6 +50,14 @@ const UISidePeople = ({ setNav }) => {
       <UISidePeopleModal {...modalProps} closeModal={closeModal} />
       <div className="viewing-box">
         Now Viewing: <b>{collection.name}</b>
+        {isMobile && (
+          <button
+            className="button is-small is-dark"
+            onClick={() => setStage(1)}
+          >
+            Next
+          </button>
+        )}
       </div>
       <form className="ac-custom ac-checkbox ac-boxfill" autoComplete="off">
         <ul>

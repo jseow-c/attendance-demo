@@ -15,9 +15,29 @@
       height: 100%;
       padding: 0 5.5vmin;
       overflow: hidden;
+      @include mobile {
+        padding: 0;
+      }
+      &.card-attendance {
+        height: auto;
+      }
       &.card-meraki {
         .viewing-box {
           padding: 0;
+          @include mobile {
+            padding: 0 2.9em;
+          }
+        }
+        .image-container {
+          display: flex;
+          height: calc(200px + 20vmin);
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 2.5vmin;
+          @include mobile {
+            padding: 15px;
+          }
         }
       }
 
@@ -52,6 +72,13 @@
   .viewing-box {
     font-size: 1.05em;
     padding: 0 2.9em;
+    @include mobile {
+      display: flex;
+      align-items: center;
+      .button {
+        margin-left: 20px;
+      }
+    }
   }
 
   .loading-container {
@@ -123,7 +150,6 @@
     .icon {
       cursor: pointer;
       margin: 0 5px;
-      font-size: 2.25em !important;
     }
   }
 }
@@ -186,7 +212,7 @@
     }
     .avatar-preview {
       width: 100%;
-      height: 35vmin;
+      height: calc(200px + 5vmin);
       border-radius: 15px;
       > div {
         border-radius: 15px;

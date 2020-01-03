@@ -7,7 +7,9 @@ import UIMerakiFormImage from "./Image";
 const UIMerakiForm = () => {
   const {
     collectionStore: [collection],
-    attendanceStore: [, setAttendance]
+    attendanceStore: [, setAttendance],
+    stageStore: [, setStage],
+    isMobile
   } = useContext(StoreContext);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -21,7 +23,9 @@ const UIMerakiForm = () => {
       const response = await axios.post(url, postData, options);
       console.log(response.data);
       setAttendance(response.data);
-      setLoading(false);
+      if (isMobile) {
+        setStage(2);
+      } else setLoading(false);
     }
   };
 
@@ -29,6 +33,14 @@ const UIMerakiForm = () => {
     <div className="card-overall card-meraki">
       <div className="viewing-box">
         Now Viewing: <b>{collection.name}</b>
+        {isMobile && (
+          <button
+            className="button is-small is-dark"
+            onClick={() => setStage(0)}
+          >
+            Back
+          </button>
+        )}
       </div>
       {loading && (
         <div className="loading-container">
@@ -36,16 +48,7 @@ const UIMerakiForm = () => {
         </div>
       )}
       {!loading && (
-        <div
-          style={{
-            display: "flex",
-            height: "50vmin",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: "2.5vmin"
-          }}
-        >
+        <div className="image-container">
           <UIMerakiFormImage image={image} setImage={setImage} />
           <div className="control" onClick={onSubmit}>
             <button

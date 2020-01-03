@@ -24,6 +24,11 @@ const textClass = {
   notSelected: "title"
 };
 
+const iconClass = {
+  selected: "fas fa-check-circle has-text-white",
+  notSelected: "fas fa-check-circle"
+};
+
 const nonDeleteList = ["MOHDemo"];
 
 const UISideCollectionCard = ({
@@ -41,6 +46,8 @@ const UISideCollectionCard = ({
     collection.id === item.id ? cardClass.selected : cardClass.notSelected;
   const textClassName =
     collection.id === item.id ? textClass.selected : textClass.notSelected;
+  const iconClassName =
+    collection.id === item.id ? iconClass.selected : iconClass.notSelected;
   return (
     <motion.div variants={cardVariant} className="collection-container">
       <div className={className}>
@@ -57,7 +64,7 @@ const UISideCollectionCard = ({
                   className="icon has-text-info"
                   onClick={clickSelect}
                 >
-                  <i className="fas fa-check-circle"></i>
+                  <i className={iconClassName}></i>
                 </motion.div>
                 {enableDelete && !nonDeleteList.includes(item.name) && (
                   <motion.div
