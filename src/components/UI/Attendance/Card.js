@@ -33,7 +33,7 @@ const UIAttendanceCard = ({ item, cardVariant }) => {
                 className="icon has-text-success bold"
                 style={isMobile ? { fontSize: "1.25em" } : {}}
               >
-                {item.confidence * 100}%
+                {(item.confidence * 100).toFixed(2)}%
               </motion.div>
             </motion.div>
           </AnimatePresence>
