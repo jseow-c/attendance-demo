@@ -24,7 +24,7 @@ const App = () => {
   const colsClass = isMobile ? classes.cols.mobile : classes.cols.desktop;
   const showColumn = stageNum => (isMobile && stage === stageNum) || !isMobile;
   return (
-    <div>
+    <div style={isMobile ? { display: "flex" } : {}}>
       <div className="container is-fluid wh-full">
         <div className={colsClass}>
           {showColumn(0) && (
