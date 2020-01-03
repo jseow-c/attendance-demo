@@ -164,26 +164,32 @@
     right: 16px;
     z-index: 1;
     top: 8px;
+    &.avatar-ch {
+      top: 49.5px;
+    }
+    &.avatar-jl {
+      top: 91px;
+    }
     input {
       display: none;
-      + label {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.45em;
-        width: 34px;
-        height: 34px;
-        margin-bottom: 0;
-        border-radius: 100%;
-        background: #ffffff;
-        border: 1px solid transparent;
-        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
-        cursor: pointer;
-        transition: all 0.2s ease-in-out;
-        &:hover {
-          background: #f1f1f1;
-          border-color: #d6d6d6;
-        }
+    }
+    label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.45em;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 0;
+      border-radius: 100%;
+      background: #ffffff;
+      border: 1px solid transparent;
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background: #f1f1f1;
+        border-color: #d6d6d6;
       }
     }
   }
@@ -209,6 +215,12 @@
     .avatar-edit {
       right: -7px;
       top: -15px;
+      &.avatar-ch {
+        top: 26.5px;
+      }
+      &.avatar-jl {
+        top: 68px;
+      }
     }
     .avatar-preview {
       width: 100%;

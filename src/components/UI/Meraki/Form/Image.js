@@ -1,5 +1,7 @@
 import React from "react";
 import { nullImage } from "./nullImage";
+import ImageJL from "../../../../img/sample_meraki_self.jpg";
+import ImageCH from "../../../../img/sample_meraki_ch.jpg";
 
 const toBase64 = file =>
   new Promise((resolve, reject) => {
@@ -10,6 +12,12 @@ const toBase64 = file =>
   });
 
 const UIMerakiFormImage = ({ image, setImage }) => {
+  const setFixImage = async uri => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const file = await toBase64(blob);
+    setImage(file);
+  };
   return (
     <div className="field w-100">
       <div className="avatar-upload avatar-meraki">
@@ -24,7 +32,17 @@ const UIMerakiFormImage = ({ image, setImage }) => {
             }}
           />
           <label htmlFor="imageUpload">
-            <i className="fas fa-pen"></i>
+            <i className="fas fa-camera"></i>
+          </label>
+        </div>
+        <div className="avatar-edit avatar-ch">
+          <label onClick={() => setFixImage(ImageCH)}>
+            <i className="fas fa-user-tie"></i>
+          </label>
+        </div>
+        <div className="avatar-edit avatar-jl">
+          <label onClick={() => setFixImage(ImageJL)}>
+            <i className="fas fa-child"></i>
           </label>
         </div>
         <div className="avatar-preview">
