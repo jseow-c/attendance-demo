@@ -23,7 +23,16 @@ const UISideCollectionCard = ({
       <div className="card card-collection">
         <div className="content">
           <div className="person-icon">
-            <img style={{ borderRadius: "50%" }} src={source} alt="Person" />
+            <img
+              style={{
+                borderRadius: "50%",
+                objectFit: "cover",
+                width: 30,
+                height: 30
+              }}
+              src={source}
+              alt="Person"
+            />
           </div>
           <div className="title">{item.name}</div>
           {options && (

@@ -32,20 +32,12 @@ exports.create = async (req, res) => {
       {
         AttributeName: "FaceId",
         AttributeType: "S"
-      },
-      {
-        AttributeName: "S3Key",
-        AttributeType: "S"
       }
     ],
     KeySchema: [
       {
         AttributeName: "FaceId",
         KeyType: "HASH"
-      },
-      {
-        AttributeName: "S3Key",
-        KeyType: "RANGE"
       }
     ],
     ProvisionedThroughput: {

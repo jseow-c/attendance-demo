@@ -3,6 +3,7 @@
         "dbparams",
         "dbresponse",
         "dynamodb",
+        "etag",
         "intercorp",
         "meraki",
         "rekognition"
