@@ -15,4 +15,8 @@
 //   return true;
 // };
 
-export const isAlphaNumeric = str => /^[\w\s]+$/.test(str);
+export const isLowerCase = str => /^[a-z0-9]+$/.test(str);
+
+export const isAlphaNumeric = str => /^[\w]+$/.test(str);
+
+export const isAlphaNumericSpace = str => /^[\w\s]+$/.test(str);

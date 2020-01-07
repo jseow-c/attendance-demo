@@ -6,6 +6,7 @@ import UIMerakiFormImage from "./Image";
 
 const UIMerakiForm = () => {
   const {
+    recognitionStore: [recognition],
     collectionStore: [collection],
     attendanceStore: [, setAttendance],
     stageStore: [, setStage],
@@ -17,7 +18,7 @@ const UIMerakiForm = () => {
   const onSubmit = async () => {
     if (image) {
       setLoading(true);
-      const url = `${process.env.REACT_APP_SERVER_IP}/intercorp/collection/${collection.id}/compare`;
+      const url = `${process.env.REACT_APP_SERVER_IP}/${recognition}/collection/${collection.id}/compare`;
       const options = { "Content-Type": "application/json" };
       const postData = { image };
       const response = await axios.post(url, postData, options);

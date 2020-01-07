@@ -1,6 +1,10 @@
 {
     "cSpell.words": [
+        "dbparams",
+        "dbresponse",
+        "dynamodb",
         "intercorp",
-        "meraki"
+        "meraki",
+        "rekognition"
     ]
 }

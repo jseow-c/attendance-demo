@@ -8,6 +8,7 @@ import LoadingGif from "../../../../img/loading.gif";
 
 const UISideCollection = ({ setNav }) => {
   const {
+    recognitionStore: [recognition],
     collectionListStore: [, setCollectionList]
   } = useContext(StoreContext);
   const [loading, setLoading] = useState(true);
@@ -30,16 +31,20 @@ const UISideCollection = ({ setNav }) => {
   };
 
   useEffect(() => {
+    setLoading(true);
+  }, [recognition, setLoading]);
+
+  useEffect(() => {
     if (loading) {
       const getList = async () => {
-        const url = `${process.env.REACT_APP_SERVER_IP}/intercorp/collection`;
+        const url = `${process.env.REACT_APP_SERVER_IP}/${recognition}/collection`;
         const response = await axios.get(url);
         setCollectionList(response.data);
         setLoading(false);
       };
       getList();
     }
-  }, [loading, setCollectionList]);
+  }, [loading, setCollectionList, recognition]);
   return (
     <div className="card-overall">
       <UISideCollectionModal {...modalProps} closeModal={closeModal} />

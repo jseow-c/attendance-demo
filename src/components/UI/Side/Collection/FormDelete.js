@@ -7,12 +7,13 @@ import axios from "axios";
 
 const UISideCollectionFormDelete = ({ closeModal, deleteItem }) => {
   const {
+    recognitionStore: [recognition],
     collectionListStore: [collectionList, setCollectionList]
   } = useContext(StoreContext);
   const [loading, setLoading] = useState(false);
   const onDelete = async () => {
     setLoading(true);
-    const url = `${process.env.REACT_APP_SERVER_IP}/intercorp/collection`;
+    const url = `${process.env.REACT_APP_SERVER_IP}/${recognition}/collection`;
     const options = {
       data: { id: deleteItem.id }
     };
@@ -56,7 +57,7 @@ const UISideCollectionFormDelete = ({ closeModal, deleteItem }) => {
           Please note that this action is irreversible.
         </p>
       </div>
-      <div class="control">
+      <div className="control">
         <button
           className={`button is-link is-danger mr-1 ${
             loading ? "is-loading" : ""

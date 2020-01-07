@@ -7,13 +7,14 @@ import axios from "axios";
 
 const UISidePeopleFormDelete = ({ closeModal, deleteItem }) => {
   const {
+    recognitionStore: [recognition],
     collectionStore: [collection],
     peopleStore: [people, setPeople]
   } = useContext(StoreContext);
   const [loading, setLoading] = useState(false);
   const onDelete = async () => {
     setLoading(true);
-    const url = `${process.env.REACT_APP_SERVER_IP}/intercorp/collection/${collection.id}/person/${deleteItem.person_id}`;
+    const url = `${process.env.REACT_APP_SERVER_IP}/${recognition}/collection/${collection.id}/person/${deleteItem.person_id}`;
     const options = {};
     await axios.delete(url, options);
     setLoading(false);

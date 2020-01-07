@@ -5,6 +5,7 @@ export const StoreContext = React.createContext(null);
 
 export default ({ children }) => {
   const size = useWindowSize();
+  const [recognition, setRecognition] = useState("intercorp");
   const [stage, setStage] = useState(0);
   const [collection, setCollection] = useState({});
   const [collectionList, setCollectionList] = useState([]);
@@ -13,6 +14,7 @@ export default ({ children }) => {
 
   const store = {
     isMobile: size.width < 1440,
+    recognitionStore: [recognition, setRecognition],
     stageStore: [stage, setStage],
     collectionStore: [collection, setCollection],
     collectionListStore: [collectionList, setCollectionList],

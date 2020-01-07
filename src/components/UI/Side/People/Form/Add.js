@@ -6,10 +6,11 @@ import { StoreContext } from "../../../../../context";
 import UISidePeopleFormInput from "./Input";
 import UISidePeopleFormImage from "./Image";
 import { modalChildVariant } from "../variants";
-import { isAlphaNumeric } from "../../../../../functions/validation";
+import { isAlphaNumericSpace } from "../../../../../functions/validation";
 
 const UISidePeopleFormAdd = ({ closeModal }) => {
   const {
+    recognitionStore: [recognition],
     peopleStore: [people, setPeople],
     collectionStore: [collection]
   } = useContext(StoreContext);
@@ -36,7 +37,7 @@ const UISidePeopleFormAdd = ({ closeModal }) => {
         setStatus("This name is too short.");
       } else if (newName.length > 15) {
         setStatus("This name is too long");
-      } else if (!isAlphaNumeric(newName)) {
+      } else if (!isAlphaNumericSpace(newName)) {
         setStatus("This name accepts only alphanumeric.");
       } else {
         setStatus("");
@@ -47,7 +48,7 @@ const UISidePeopleFormAdd = ({ closeModal }) => {
   const onSubmit = async () => {
     if (!status) {
       setLoading(true);
-      const url = `${process.env.REACT_APP_SERVER_IP}/intercorp/collection/${collection.id}/person`;
+      const url = `${process.env.REACT_APP_SERVER_IP}/${recognition}/collection/${collection.id}/person`;
       const options = { "Content-Type": "application/json" };
       const postData = { name, image };
       const response = await axios.post(url, postData, options);

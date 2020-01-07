@@ -8,6 +8,7 @@ import LoadingGif from "../../../../img/loading.gif";
 
 const UISidePeople = ({ setNav }) => {
   const {
+    recognitionStore: [recognition],
     collectionStore: [collection],
     peopleStore: [, setPeople],
     stageStore: [, setStage],
@@ -33,9 +34,13 @@ const UISidePeople = ({ setNav }) => {
   };
 
   useEffect(() => {
+    setLoading(true);
+  }, [setLoading, recognition]);
+
+  useEffect(() => {
     if (loading && collection.id) {
       const getList = async () => {
-        const url = `${process.env.REACT_APP_SERVER_IP}/intercorp/collection/${collection.id}/person`;
+        const url = `${process.env.REACT_APP_SERVER_IP}/${recognition}/collection/${collection.id}/person`;
         const response = await axios.get(url);
         setPeople(response.data);
         setLoading(false);
@@ -44,7 +49,7 @@ const UISidePeople = ({ setNav }) => {
     } else if (!collection.id) {
       setNav("Collections");
     }
-  }, [loading, collection.id, setPeople, setNav]);
+  }, [loading, collection.id, setPeople, setNav, recognition]);
   return (
     <div className="card-overall">
       <UISidePeopleModal {...modalProps} closeModal={closeModal} />

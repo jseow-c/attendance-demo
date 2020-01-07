@@ -1,36 +1,35 @@
 // const model = require("./model");
-const collectionController = require("./intercorp/controller/collection");
-const personController = require("./intercorp/controller/person");
-const faceController = require("./intercorp/controller/face");
+const iCollectionCtrler = require("./intercorp/controller/collection");
+const iPersonCtrler = require("./intercorp/controller/person");
+const aCollectionCtrler = require("./aws/controller/collection");
+const aPersonCtrler = require("./aws/controller/person");
+
 const merakiController = require("./meraki/controller");
 
-// initialize data
-let intercorpData;
-// model().then(response => {
-//   intercorpData = response.intercorpData;
-// });
-
 // Intercorp Collection Controllers
-exports.collection_list = (req, res) => collectionController.list(req, res);
-exports.collection_create = (req, res) => collectionController.create(req, res);
-exports.collection_delete = (req, res) => collectionController.delete(req, res);
+exports.i_collection_list = (req, res) => iCollectionCtrler.list(req, res);
+exports.i_collection_create = (req, res) => iCollectionCtrler.create(req, res);
+exports.i_collection_delete = (req, res) => iCollectionCtrler.delete(req, res);
 
 // Intercorp Person Controllers
-exports.person_list = (req, res) => personController.list(req, res);
-exports.person_create = (req, res) => personController.create(req, res);
-exports.person_delete = (req, res) => personController.delete(req, res);
+exports.i_person_list = (req, res) => iPersonCtrler.list(req, res);
+exports.i_person_create = (req, res) => iPersonCtrler.create(req, res);
+exports.i_person_delete = (req, res) => iPersonCtrler.delete(req, res);
 
 // Intercorp Compare
-exports.person_compare = (req, res) => personController.compare(req, res);
+exports.i_person_compare = (req, res) => iPersonCtrler.compare(req, res);
 
-// Intercorp Face Controllers
-exports.face_create = (req, res) =>
-  faceController.create(req, res, intercorpData);
-exports.face_enroll = (req, res) =>
-  faceController.enroll(req, res, intercorpData);
-exports.face_erase = (req, res) =>
-  faceController.erase(req, res, intercorpData);
-exports.face_compare = (req, res) =>
-  faceController.compare(req, res, intercorpData);
+// AWS Collection Controllers
+exports.a_collection_list = (req, res) => aCollectionCtrler.list(req, res);
+exports.a_collection_create = (req, res) => aCollectionCtrler.create(req, res);
+exports.a_collection_delete = (req, res) => aCollectionCtrler.delete(req, res);
+
+// // AWS Person Controllers
+exports.a_person_list = (req, res) => aPersonCtrler.list(req, res);
+exports.a_person_create = (req, res) => aPersonCtrler.create(req, res);
+// exports.a_person_delete = (req, res) => aPersonCtrler.delete(req, res);
+
+// // AWS Compare
+// exports.a_person_compare = (req, res) => aPersonCtrler.compare(req, res);
 
 exports.meraki_snap = (req, res) => merakiController.snap(req, res);

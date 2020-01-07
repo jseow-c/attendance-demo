@@ -2,12 +2,13 @@ import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { StoreContext } from "../../../../context";
 import { modalChildVariant } from "./variants";
-import { isAlphaNumeric } from "../../../../functions/validation";
+import { isAlphaNumeric, isLowerCase } from "../../../../functions/validation";
 
 import axios from "axios";
 
 const UISideCollectionFormAdd = ({ closeModal }) => {
   const {
+    recognitionStore: [recognition],
     collectionListStore: [collectionList, setCollectionList]
   } = useContext(StoreContext);
   const [name, setName] = useState("");
@@ -32,8 +33,10 @@ const UISideCollectionFormAdd = ({ closeModal }) => {
         setStatus("This name is too short.");
       } else if (newName.length > 10) {
         setStatus("This name is too long");
-      } else if (!isAlphaNumeric(newName)) {
+      } else if (recognition === "intercorp" && !isAlphaNumeric(newName)) {
         setStatus("This name accepts only alphanumeric.");
+      } else if (recognition === "aws" && !isLowerCase(newName)) {
+        setStatus("This name accepts only lowercase and numbers.");
       } else {
         setStatus("");
       }
@@ -43,7 +46,7 @@ const UISideCollectionFormAdd = ({ closeModal }) => {
   const onSubmit = async () => {
     if (!status) {
       setLoading(true);
-      const url = `${process.env.REACT_APP_SERVER_IP}/intercorp/collection`;
+      const url = `${process.env.REACT_APP_SERVER_IP}/${recognition}/collection`;
       const options = { "Content-Type": "application/json" };
       const postData = {
         name
@@ -96,9 +99,9 @@ const UISideCollectionFormAdd = ({ closeModal }) => {
           {status ? status : "This name is available."}
         </p>
       </div>
-      <div class="control" onClick={onSubmit}>
+      <div className="control" onClick={onSubmit}>
         <button
-          class={`button is-link ${loading ? "is-loading" : ""}`}
+          className={`button is-link ${loading ? "is-loading" : ""}`}
           disabled={status ? true : false}
         >
           Submit
