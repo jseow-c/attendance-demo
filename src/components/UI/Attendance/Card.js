@@ -19,7 +19,16 @@ const UIAttendanceCard = ({ item, cardVariant }) => {
       <div className="card card-collection">
         <div className="content">
           <div className="person-icon">
-            <img style={{ borderRadius: "50%" }} src={source} alt="Person" />
+            <img
+              style={{
+                borderRadius: "50%",
+                width: 30,
+                height: 30,
+                objectFit: "cover"
+              }}
+              src={source}
+              alt="Person"
+            />
           </div>
           <div className="title">{item.person_name}</div>
           <AnimatePresence>

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import UISideNav from "./Nav";
 import UISideFR from "./FR";
 import UISidePeople from "./People/People";
 import UISideCollection from "./Collection/Collection";
+import { StoreContext } from "../../../context";
 
 const UISide = () => {
-  const [nav, setNav] = useState("Collections");
+  const {
+    navStore: [nav, setNav]
+  } = useContext(StoreContext);
   return (
     <div className="card card-register has-background-light">
       <div className="card-content" style={{ height: "100%" }}>

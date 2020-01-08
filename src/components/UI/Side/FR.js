@@ -17,18 +17,30 @@ const UISideFRTitle = ({ name, checkNav, onClick }) => {
 
 const UISideFR = () => {
   const {
+    navStore: [, setNav],
+    collectionStore: [, setCollection],
+    imageStore: [, setImage],
+    peopleStore: [, setPeople],
+    attendanceStore: [, setAttendance],
     recognitionStore: [recognition, setRecognition]
   } = useContext(StoreContext);
   const checkNav = name =>
     recognition === name ? classes.active : classes.notActive;
-  const onClick = name => setRecognition(name);
+  const onClick = name => {
+    setRecognition(name);
+    setNav("Collections");
+    setCollection({});
+    setPeople([]);
+    setAttendance([]);
+    setImage(null);
+  };
   const titleProps = { checkNav, onClick };
   return (
     <div
       style={{
         display: "flex",
         justifyContent: "center",
-        margin: "15px 0 0 0"
+        margin: "15px 0 10px 0"
       }}
     >
       <div className="tags has-addons">

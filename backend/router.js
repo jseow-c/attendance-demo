@@ -29,9 +29,9 @@ router.delete(`${aCollectionString}`, controller.a_collection_delete);
 
 router.get(`${aPersonString}`, controller.a_person_list);
 router.post(`${aPersonString}`, controller.a_person_create);
-// router.delete(`${aPersonString}/:person_id`, controller.a_person_delete);
+router.delete(`${aPersonString}/:person_id`, controller.a_person_delete);
 
-// router.post(`${aCompareString}`, controller.a_person_compare);
+router.post(`${aCompareString}`, controller.a_person_compare);
 
 router.post("/meraki/snap", controller.meraki_snap);
 

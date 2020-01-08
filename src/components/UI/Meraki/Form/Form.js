@@ -6,6 +6,7 @@ import UIMerakiFormImage from "./Image";
 
 const UIMerakiForm = () => {
   const {
+    imageStore: [image, setImage],
     recognitionStore: [recognition],
     collectionStore: [collection],
     attendanceStore: [, setAttendance],
@@ -13,7 +14,6 @@ const UIMerakiForm = () => {
     isMobile
   } = useContext(StoreContext);
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState(null);
 
   const onSubmit = async () => {
     if (image) {

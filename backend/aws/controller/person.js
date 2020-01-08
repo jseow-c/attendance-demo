@@ -102,23 +102,69 @@ exports.create = async (req, res) => {
   });
 };
 
-// exports.delete = async (req, res) => {
-//   const collection_id = req.params.collection_id;
-//   const person_id = req.params.person_id;
+exports.delete = async (req, res) => {
+  const collection_id = req.params.collection_id;
+  const aws_name = `${process.env.APP_NAME}-${collection_id}`;
+  const person_id = req.params.person_id;
+  //  rekognition
+  const params = {
+    CollectionId: collection_id,
+    FaceIds: [person_id]
+  };
+  await rekognition.deleteFaces(params).promise();
+  // dynamodb
+  const dbparams = {
+    Key: { FaceId: { S: person_id } },
+    TableName: aws_name
+  };
+  const tableItem = await dynamodb.getItem(dbparams).promise();
+  await dynamodb.deleteItem(dbparams).promise();
+  //  s3
+  const s3params = {
+    Bucket: aws_name,
+    Key: tableItem.Item.Name.S
+  };
+  await s3.deleteObject(s3params).promise();
 
-//   const url = `${baseUrl}/person/${collection_id}/${person_id}`;
-//   await axios.delete(url, IntercorpOptions);
-//   return res.json({ id: person_id });
-// };
+  return res.json({ id: person_id });
+};
 
-// exports.compare = async (req, res) => {
-//   const collection_id = req.params.collection_id;
-//   const image = req.body.image;
-
-//   const url = `${baseUrl}/search`;
-//   const images = await Promise.all([resizeBase64(image)]);
-//   const postData = { images, collection_id };
-//   const response = await axios.post(url, postData, IntercorpOptions);
-
-//   return res.json(response.data.response);
-// };
+exports.compare = async (req, res) => {
+  const collection_id = req.params.collection_id;
+  const aws_name = `${process.env.APP_NAME}-${collection_id}`;
+  const image = req.body.image;
+  const buffer = new Buffer.from(
+    image.replace(/^data:image\/\w+;base64,/, ""),
+    "base64"
+  );
+  var params = {
+    CollectionId: collection_id,
+    FaceMatchThreshold: 40,
+    Image: {
+      Bytes: buffer
+    },
+    MaxFaces: 10
+  };
+  const return_data = [];
+  const response = await rekognition.searchFacesByImage(params).promise();
+  console.log(response.FaceMatches);
+  for (let i of response.FaceMatches) {
+    const confidence = i.Similarity / 100;
+    const s3params = {
+      Bucket: aws_name,
+      Key: i.Face.ExternalImageId
+    };
+    const s3response = await s3.getObject(s3params).promise();
+    const thumbnail = new Buffer.from(s3response.Body, "binary").toString(
+      "base64"
+    );
+    return_data.push({
+      collection_id,
+      person_id: i.Face.FaceId,
+      confidence,
+      person_name: convertHyphen(i.Face.ExternalImageId),
+      thumbnail
+    });
+  }
+  return res.json(return_data);
+};

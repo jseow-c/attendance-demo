@@ -27,9 +27,9 @@ exports.a_collection_delete = (req, res) => aCollectionCtrler.delete(req, res);
 // // AWS Person Controllers
 exports.a_person_list = (req, res) => aPersonCtrler.list(req, res);
 exports.a_person_create = (req, res) => aPersonCtrler.create(req, res);
-// exports.a_person_delete = (req, res) => aPersonCtrler.delete(req, res);
+exports.a_person_delete = (req, res) => aPersonCtrler.delete(req, res);
 
 // // AWS Compare
-// exports.a_person_compare = (req, res) => aPersonCtrler.compare(req, res);
+exports.a_person_compare = (req, res) => aPersonCtrler.compare(req, res);
 
 exports.meraki_snap = (req, res) => merakiController.snap(req, res);
