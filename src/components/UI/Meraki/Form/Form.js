@@ -6,7 +6,7 @@ import UIMerakiFormImage from "./Image";
 
 const UIMerakiForm = () => {
   const {
-    imageStore: [image, setImage],
+    imageStore: [image],
     recognitionStore: [recognition],
     collectionStore: [collection],
     attendanceStore: [, setAttendance],
@@ -50,7 +50,7 @@ const UIMerakiForm = () => {
       )}
       {!loading && (
         <div className="image-container">
-          <UIMerakiFormImage image={image} setImage={setImage} />
+          <UIMerakiFormImage setLoading={setLoading} />
           <div className="control" onClick={onSubmit}>
             <button
               className={`button is-link ${loading ? "is-loading" : ""}`}

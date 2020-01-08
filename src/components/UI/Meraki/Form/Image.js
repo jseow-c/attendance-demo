@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
+import axios from "axios";
 import { nullImage } from "./nullImage";
+import { StoreContext } from "../../../../context";
 import ImageJL from "../../../../img/sample_meraki_self.jpg";
 import ImageCH from "../../../../img/sample_meraki_ch.jpg";
 
@@ -11,7 +13,10 @@ const toBase64 = file =>
     reader.onerror = error => reject(error);
   });
 
-const UIMerakiFormImage = ({ image, setImage }) => {
+const UIMerakiFormImage = ({ setLoading }) => {
+  const {
+    imageStore: [image, setImage]
+  } = useContext(StoreContext);
   const setFixImage = async uri => {
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -22,6 +27,19 @@ const UIMerakiFormImage = ({ image, setImage }) => {
     <div className="field w-100">
       <div className="avatar-upload avatar-meraki">
         <div className="avatar-edit">
+          <label
+            onClick={async () => {
+              setLoading(true);
+              const url = `${process.env.REACT_APP_SERVER_IP}/meraki/snap`;
+              const response = await axios.post(url);
+              setImage(response.data.image);
+              setLoading(false);
+            }}
+          >
+            <i className="fab fa-medium-m"></i>
+          </label>
+        </div>
+        <div className="avatar-edit avatar-cam">
           <input
             type="file"
             id="imageUpload"
