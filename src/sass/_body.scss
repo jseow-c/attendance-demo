@@ -40,3 +40,16 @@ body {
 .clickable {
   cursor: pointer;
 }
+
+.field-mb {
+  margin-bottom: calc(1.5rem - 0.75rem);
+}
+
+.a-href {
+  cursor: pointer;
+  color: hsl(217, 71%, 53%);
+  border-bottom: 2px solid hsl(217, 71%, 53%);
+  &:hover {
+    border-bottom: none;
+  }
+}

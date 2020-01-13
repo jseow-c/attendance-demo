@@ -24,7 +24,7 @@ const UIAttendance = () => {
             Attendance
           </h4>
         </div>
-        <div className="main-content">
+        <div className="main-content" style={{ paddingTop: 25 }}>
           {isMobile && (
             <div className="card-overall card-attendance">
               <div className="viewing-box">

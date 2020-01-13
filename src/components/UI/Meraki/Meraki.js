@@ -1,6 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import UIMerakiForm from "./Form/Form";
 import { StoreContext } from "../../../context";
+import UIMerakiOption from "./Option";
+import UIMerakiModal from "./Modal/Modal";
+import LoadingGif from "../../../img/loading.gif";
+import axios from "axios";
 
 const classes = {
   active: "nav-title title-with-subtitles light-bold",
@@ -9,8 +13,40 @@ const classes = {
 
 const UIMeraki = () => {
   const {
-    collectionStore: [collection]
+    collectionStore: [collection],
+    merakiStore: [, setMeraki]
   } = useContext(StoreContext);
+
+  const [modal, setModal] = useState(false);
+  const [modalLoad, setModalLoad] = useState(true);
+  const modalProps = { modal, modalLoad };
+  const [loading, setLoading] = useState(true);
+
+  const closeModal = () => {
+    setModalLoad(false);
+    setModal(false);
+  };
+
+  const openModal = type => {
+    setTimeout(() => setModalLoad(true), 300);
+    setModal(true);
+  };
+
+  useEffect(() => {
+    if (loading) {
+      const getDefault = async () => {
+        const url = `${process.env.REACT_APP_SERVER_IP}/meraki/camera`;
+        const response = await axios.get(url);
+        setMeraki({
+          ...response.data.default,
+          name: "default"
+        });
+        setLoading(false);
+      };
+      getDefault();
+    }
+  }, [loading, setMeraki, setLoading]);
+
   const collectionExist = Object.keys(collection).length > 0;
 
   return (
@@ -21,21 +57,31 @@ const UIMeraki = () => {
             Meraki Camera
           </h4>
         </div>
-        <div className="main-content">
-          {collectionExist && <UIMerakiForm />}
-          {!collectionExist && (
-            <div
-              style={{
-                display: "flex",
-                height: "50vmin",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              No collection selected.
+        <UIMerakiOption />
+        {loading ? (
+          <div className="loading-container">
+            <img className="loading" src={LoadingGif} alt="Loading" />
+          </div>
+        ) : (
+          <div className="main-content">
+            <div className="card-overall card-meraki">
+              <UIMerakiModal {...modalProps} closeModal={closeModal} />
+              {collectionExist && <UIMerakiForm openModal={openModal} />}
+              {!collectionExist && (
+                <div
+                  style={{
+                    display: "flex",
+                    height: "50vmin",
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  No collection selected.
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

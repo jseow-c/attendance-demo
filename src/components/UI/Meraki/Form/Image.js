@@ -15,7 +15,8 @@ const toBase64 = file =>
 
 const UIMerakiFormImage = ({ setLoading }) => {
   const {
-    imageStore: [image, setImage]
+    imageStore: [image, setImage],
+    merakiStore: [meraki]
   } = useContext(StoreContext);
   const setFixImage = async uri => {
     const response = await fetch(uri);
@@ -30,7 +31,7 @@ const UIMerakiFormImage = ({ setLoading }) => {
           <label
             onClick={async () => {
               setLoading(true);
-              const url = `${process.env.REACT_APP_SERVER_IP}/meraki/snap`;
+              const url = `${process.env.REACT_APP_SERVER_IP}/meraki/snap/${meraki.name}`;
               const response = await axios.post(url);
               setImage(response.data.image);
               setLoading(false);
@@ -67,7 +68,8 @@ const UIMerakiFormImage = ({ setLoading }) => {
           <div
             id="imagePreview"
             style={{
-              backgroundImage: `url(${image ? image : nullImage})`
+              backgroundImage: `url(${image ? image : nullImage})`,
+              backgroundSize: image ? "cover" : "10vmin"
             }}
           ></div>
         </div>

@@ -6,6 +6,23 @@ const aPersonCtrler = require("./aws/controller/person");
 
 const merakiController = require("./meraki/controller");
 
+// Meraki Info
+// get meraki configuration to process.env
+const misc = require("./misc");
+const getMerakiInfo = async () => {
+  const file = await misc.readFile("meraki.json");
+  const buffer = JSON.parse(file);
+  return buffer;
+};
+let merakiData;
+getMerakiInfo().then(response => {
+  merakiData = response;
+});
+
+const setMerakiInfo = data => {
+  merakiData = data;
+};
+
 // Intercorp Collection Controllers
 exports.i_collection_list = (req, res) => iCollectionCtrler.list(req, res);
 exports.i_collection_create = (req, res) => iCollectionCtrler.create(req, res);
@@ -32,4 +49,7 @@ exports.a_person_delete = (req, res) => aPersonCtrler.delete(req, res);
 // // AWS Compare
 exports.a_person_compare = (req, res) => aPersonCtrler.compare(req, res);
 
-exports.meraki_snap = (req, res) => merakiController.snap(req, res);
+exports.meraki_snap = (req, res) => merakiController.snap(req, res, merakiData);
+exports.meraki_list = (req, res) => merakiController.list(req, res, merakiData);
+exports.meraki_update = (req, res) =>
+  merakiController.update(req, res, setMerakiInfo);

@@ -1,5 +1,10 @@
 const fetch = require("node-fetch");
 const options = require("./options");
+const misc = require("../misc");
+
+const { fullOverwrite } = misc;
+
+const overwrite = fullOverwrite("meraki.json");
 
 const { baseUrl } = options;
 
@@ -9,16 +14,19 @@ const sleep = ms => {
   });
 };
 
-const getCameraDetails = () => {
-  const networkID = process.env.MERAKI_NETWORK_ID;
-  const camSerial = process.env.MERAKI_CAMERA_SERIAL;
-  const ACCESS_TOKEN = process.env.MERAKI_API_KEY;
-  return { networkID, camSerial, ACCESS_TOKEN };
+exports.list = async (req, res, data) => {
+  return res.json(data);
 };
 
-exports.snap = async (req, res) => {
-  const { networkID, camSerial, ACCESS_TOKEN } = getCameraDetails();
-  const headers = { "X-Cisco-Meraki-API-Key": ACCESS_TOKEN };
+exports.update = async (req, res, setData) => {
+  overwrite(req.body.data);
+  setData(req.body.data);
+  return res.json(req.body.data);
+};
+
+exports.snap = async (req, res, data) => {
+  const { networkID, camSerial, apiKey } = data[req.params.camera_name];
+  const headers = { "X-Cisco-Meraki-API-Key": apiKey };
 
   const url = `${baseUrl}/networks/${networkID}/cameras/${camSerial}/snapshot`;
   const response = await fetch(url, {

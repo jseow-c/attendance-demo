@@ -10,9 +10,11 @@ const misc = require("./backend/misc");
 const getMerakiInfo = async () => {
   const file = await misc.readFile("meraki.json");
   const buffer = JSON.parse(file);
-  process.env.MERAKI_API_KEY = buffer.apiKey;
-  process.env.MERAKI_NETWORK_ID = buffer.networkID;
-  process.env.MERAKI_CAMERA_SERIAL = buffer.camSerial;
+  const selectedKey = "jlmv12";
+  process.env.MERAKI_API_KEY = buffer[selectedKey].apiKey;
+  process.env.MERAKI_NETWORK_ID = buffer[selectedKey].networkID;
+  process.env.MERAKI_CAMERA_SERIAL = buffer[selectedKey].camSerial;
+  process.env.MERAKI_CAMERA_MQTT = buffer[selectedKey].mqttSense;
 };
 getMerakiInfo();
 

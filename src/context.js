@@ -6,6 +6,9 @@ export const StoreContext = React.createContext(null);
 export default ({ children }) => {
   const size = useWindowSize();
   const [recognition, setRecognition] = useState("intercorp");
+  const [merakiList, setMerakiList] = useState([]);
+  const [meraki, setMeraki] = useState({});
+  const [cameraType, setCameraType] = useState("static");
   const [nav, setNav] = useState("Collections");
   const [image, setImage] = useState(null);
   const [stage, setStage] = useState(0);
@@ -17,6 +20,9 @@ export default ({ children }) => {
   const store = {
     isMobile: size.width < 1440,
     recognitionStore: [recognition, setRecognition],
+    merakiStore: [meraki, setMeraki],
+    merakiListStore: [merakiList, setMerakiList],
+    cameraTypeStore: [cameraType, setCameraType],
     navStore: [nav, setNav],
     imageStore: [image, setImage],
     stageStore: [stage, setStage],

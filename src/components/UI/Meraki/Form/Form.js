@@ -4,9 +4,10 @@ import { StoreContext } from "../../../../context";
 import LoadingGif from "../../../../img/loading.gif";
 import UIMerakiFormImage from "./Image";
 
-const UIMerakiForm = () => {
+const UIMerakiForm = ({ openModal }) => {
   const {
     imageStore: [image],
+    merakiStore: [meraki],
     recognitionStore: [recognition],
     collectionStore: [collection],
     attendanceStore: [, setAttendance],
@@ -31,9 +32,14 @@ const UIMerakiForm = () => {
   };
 
   return (
-    <div className="card-overall card-meraki">
-      <div className="viewing-box">
+    <>
+      <div className="viewing-box" style={{ marginBottom: 30 }}>
         Now Viewing: <b>{collection.name}</b>
+        <span className="a-href is-pulled-right" onClick={openModal}>
+          {Object.keys(meraki).includes("name")
+            ? `Edit Camera: ${meraki.name}`
+            : null}
+        </span>
         {isMobile && (
           <button
             className="button is-small is-dark"
@@ -61,7 +67,7 @@ const UIMerakiForm = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
