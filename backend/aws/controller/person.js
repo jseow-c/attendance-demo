@@ -1,4 +1,5 @@
 const AWS = require("aws-sdk");
+const sharp = require("sharp");
 const proxy = require("proxy-agent");
 
 if (process.env.PROXY) {
@@ -117,6 +118,42 @@ exports.delete = async (req, res) => {
   return res.json({ id: person_id });
 };
 
+const searchFaceByBoundingBox = async (aws_name, collection_id, img, bb) => {
+  const croppedImg = await img.extract({ ...bb }).toBuffer();
+  var params = {
+    CollectionId: collection_id,
+    FaceMatchThreshold: 60,
+    Image: {
+      Bytes: croppedImg
+    },
+    MaxFaces: 1
+  };
+  try {
+    const response = await rekognition.searchFacesByImage(params).promise();
+    if (response.FaceMatches.length > 0) {
+      const face = response.FaceMatches[0];
+      const confidence = face.Similarity / 100;
+      const s3params = {
+        Bucket: aws_name,
+        Key: face.Face.ExternalImageId
+      };
+      const s3response = await s3.getObject(s3params).promise();
+      const thumbnail = new Buffer.from(s3response.Body, "binary").toString(
+        "base64"
+      );
+      return {
+        collection_id,
+        person_id: face.Face.FaceId,
+        confidence,
+        person_name: convertHyphen(face.Face.ExternalImageId),
+        thumbnail
+      };
+    } else return null;
+  } catch {
+    return null;
+  }
+};
+
 exports.compare = async (req, res) => {
   const collection_id = req.params.collection_id;
   const aws_name = `${process.env.APP_NAME}-${collection_id}`;
@@ -125,37 +162,36 @@ exports.compare = async (req, res) => {
     image.replace(/^data:image\/\w+;base64,/, ""),
     "base64"
   );
+  const sharpBuffer = await sharp(buffer);
+  const meta = await sharpBuffer.metadata();
   var params = {
-    CollectionId: collection_id,
-    FaceMatchThreshold: 60,
     Image: {
       Bytes: buffer
-    },
-    MaxFaces: 10
+    }
   };
   const return_data = [];
   try {
-    const response = await rekognition.searchFacesByImage(params).promise();
-    for (let i of response.FaceMatches) {
-      const confidence = i.Similarity / 100;
-      const s3params = {
-        Bucket: aws_name,
-        Key: i.Face.ExternalImageId
-      };
-      const s3response = await s3.getObject(s3params).promise();
-      const thumbnail = new Buffer.from(s3response.Body, "binary").toString(
-        "base64"
-      );
-      return_data.push({
-        collection_id,
-        person_id: i.Face.FaceId,
-        confidence,
-        person_name: convertHyphen(i.Face.ExternalImageId),
-        thumbnail
-      });
+    const response = await rekognition.detectFaces(params).promise();
+    if (response.FaceDetails.length > 0) {
+      for (let i of response.FaceDetails) {
+        const bbox = {
+          width: Math.ceil(i.BoundingBox.Width * meta.width),
+          height: Math.ceil(i.BoundingBox.Height * meta.height),
+          top: Math.ceil(i.BoundingBox.Top * meta.height),
+          left: Math.ceil(i.BoundingBox.Left * meta.width)
+        };
+        console.log(bbox);
+        const person = await searchFaceByBoundingBox(
+          aws_name,
+          collection_id,
+          sharpBuffer,
+          bbox
+        );
+        if (person) return_data.push(person);
+      }
     }
-  } catch {
-    console.log("error in comparison.");
+  } catch (error) {
+    console.log(error, error.stack);
   }
 
   return res.json(return_data);

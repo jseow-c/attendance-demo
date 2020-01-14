@@ -20,6 +20,7 @@ const UIMerakiFormSense = () => {
 
   const onSubmit = async () => {
     setLoading(true);
+    setAttendanceStatus("");
     const merakiUrl = `${process.env.REACT_APP_SERVER_IP}/meraki/snap/${meraki.name}`;
     const response = await axios.post(merakiUrl);
     setImage(response.data.image);

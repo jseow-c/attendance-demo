@@ -17,6 +17,7 @@ const UIMerakiFormStatic = ({ loading, setLoading }) => {
   const onSubmit = async () => {
     if (image) {
       setLoading(true);
+      setAttendanceStatus("");
       const url = `${process.env.REACT_APP_SERVER_IP}/${recognition}/collection/${collection.id}/compare`;
       const options = { "Content-Type": "application/json" };
       const postData = { image };
