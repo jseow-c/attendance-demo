@@ -17,9 +17,11 @@ const UISideFRTitle = ({ name, checkNav, onClick }) => {
 
 const UISideFR = () => {
   const {
-    navStore: [, setNav],
+    isMobile,
+    navStore: [nav, setNav],
     collectionStore: [, setCollection],
     imageStore: [, setImage],
+    stageStore: [, setStage],
     peopleStore: [, setPeople],
     attendanceStore: [, setAttendance],
     recognitionStore: [recognition, setRecognition]
@@ -36,17 +38,34 @@ const UISideFR = () => {
   };
   const titleProps = { checkNav, onClick };
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        margin: "15px 0 10px 0"
-      }}
-    >
+    <div className="card-options">
+      {isMobile ? (
+        <button
+          className="button is-small is-dark"
+          style={{ opacity: 0, cursor: "default" }}
+        >
+          Back
+        </button>
+      ) : (
+        <div />
+      )}
       <div className="tags has-addons">
         <UISideFRTitle {...titleProps} name="intercorp" />
         <UISideFRTitle {...titleProps} name="aws" />
       </div>
+      {isMobile ? (
+        <button
+          className="button is-small is-dark"
+          style={nav === "Collections" ? { opacity: 0, cursor: "default" } : {}}
+          onClick={() => {
+            if (nav === "People") setStage(1);
+          }}
+        >
+          Next
+        </button>
+      ) : (
+        <div />
+      )}
     </div>
   );
 };

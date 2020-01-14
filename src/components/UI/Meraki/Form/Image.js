@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { nullImage } from "./nullImage";
 import { StoreContext } from "../../../../context";
 import ImageJL from "../../../../img/sample_meraki_self.jpg";
 import ImageCH from "../../../../img/sample_meraki_ch.jpg";
+import LoadingGif from "../../../../img/loading.gif";
 
 const toBase64 = file =>
   new Promise((resolve, reject) => {
@@ -13,7 +14,7 @@ const toBase64 = file =>
     reader.onerror = error => reject(error);
   });
 
-const UIMerakiFormImage = ({ setLoading }) => {
+const UIMerakiFormImage = () => {
   const {
     imageStore: [image, setImage],
     merakiStore: [meraki]
@@ -24,6 +25,7 @@ const UIMerakiFormImage = ({ setLoading }) => {
     const file = await toBase64(blob);
     setImage(file);
   };
+  const [loading, setLoading] = useState(false);
   return (
     <div className="field w-100">
       <div className="avatar-upload avatar-meraki">
@@ -68,8 +70,10 @@ const UIMerakiFormImage = ({ setLoading }) => {
           <div
             id="imagePreview"
             style={{
-              backgroundImage: `url(${image ? image : nullImage})`,
-              backgroundSize: image ? "cover" : "10vmin"
+              backgroundImage: `url(${
+                loading ? LoadingGif : image ? image : nullImage
+              })`,
+              backgroundSize: loading || !image ? "10vmin" : "cover"
             }}
           ></div>
         </div>

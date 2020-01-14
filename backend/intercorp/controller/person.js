@@ -62,7 +62,13 @@ exports.compare = async (req, res) => {
   const url = `${baseUrl}/search`;
   const images = await Promise.all([resizeBase64(image)]);
   const postData = { images, collection_id };
-  const response = await axios.post(url, postData, IntercorpOptions);
+  let results = [];
+  try {
+    const response = await axios.post(url, postData, IntercorpOptions);
+    results = response.data.response;
+  } catch {
+    console.log("error found.");
+  }
 
-  return res.json(response.data.response);
+  return res.json(results);
 };

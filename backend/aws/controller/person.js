@@ -1,6 +1,5 @@
 const AWS = require("aws-sdk");
 const proxy = require("proxy-agent");
-const sharp = require("sharp");
 
 if (process.env.PROXY) {
   AWS.config.update({
@@ -38,17 +37,6 @@ exports.list = async (req, res) => {
     });
   }
   return res.json(return_data);
-};
-
-const resizeBase64 = async base64Image => {
-  let parts = base64Image.split(";");
-  let imageData = parts[1].split(",")[1];
-
-  var buffer = new Buffer.from(imageData, "base64");
-  const resizedBuffer = await sharp(buffer)
-    .resize({ width: 350 })
-    .toBuffer();
-  return resizedBuffer.toString("base64");
 };
 
 exports.create = async (req, res) => {
@@ -139,32 +127,36 @@ exports.compare = async (req, res) => {
   );
   var params = {
     CollectionId: collection_id,
-    FaceMatchThreshold: 40,
+    FaceMatchThreshold: 60,
     Image: {
       Bytes: buffer
     },
     MaxFaces: 10
   };
   const return_data = [];
-  const response = await rekognition.searchFacesByImage(params).promise();
-  console.log(response.FaceMatches);
-  for (let i of response.FaceMatches) {
-    const confidence = i.Similarity / 100;
-    const s3params = {
-      Bucket: aws_name,
-      Key: i.Face.ExternalImageId
-    };
-    const s3response = await s3.getObject(s3params).promise();
-    const thumbnail = new Buffer.from(s3response.Body, "binary").toString(
-      "base64"
-    );
-    return_data.push({
-      collection_id,
-      person_id: i.Face.FaceId,
-      confidence,
-      person_name: convertHyphen(i.Face.ExternalImageId),
-      thumbnail
-    });
+  try {
+    const response = await rekognition.searchFacesByImage(params).promise();
+    for (let i of response.FaceMatches) {
+      const confidence = i.Similarity / 100;
+      const s3params = {
+        Bucket: aws_name,
+        Key: i.Face.ExternalImageId
+      };
+      const s3response = await s3.getObject(s3params).promise();
+      const thumbnail = new Buffer.from(s3response.Body, "binary").toString(
+        "base64"
+      );
+      return_data.push({
+        collection_id,
+        person_id: i.Face.FaceId,
+        confidence,
+        person_name: convertHyphen(i.Face.ExternalImageId),
+        thumbnail
+      });
+    }
+  } catch {
+    console.log("error in comparison.");
   }
+
   return res.json(return_data);
 };

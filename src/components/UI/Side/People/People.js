@@ -10,9 +10,7 @@ const UISidePeople = ({ setNav }) => {
   const {
     recognitionStore: [recognition],
     collectionStore: [collection],
-    peopleStore: [, setPeople],
-    stageStore: [, setStage],
-    isMobile
+    peopleStore: [, setPeople]
   } = useContext(StoreContext);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -55,14 +53,6 @@ const UISidePeople = ({ setNav }) => {
       <UISidePeopleModal {...modalProps} closeModal={closeModal} />
       <div className="viewing-box">
         Now Viewing: <b>{collection.name}</b>
-        {isMobile && (
-          <button
-            className="button is-small is-dark"
-            onClick={() => setStage(1)}
-          >
-            Next
-          </button>
-        )}
       </div>
       <form className="ac-custom ac-checkbox ac-boxfill" autoComplete="off">
         <ul>

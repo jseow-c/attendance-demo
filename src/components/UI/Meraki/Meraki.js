@@ -11,6 +11,8 @@ const classes = {
   notActive: "nav-title title-with-subtitles light-bold muted"
 };
 
+const defaultMeraki = "default";
+
 const UIMeraki = () => {
   const {
     collectionStore: [collection],
@@ -21,13 +23,14 @@ const UIMeraki = () => {
   const [modalLoad, setModalLoad] = useState(true);
   const modalProps = { modal, modalLoad };
   const [loading, setLoading] = useState(true);
+  const [initialPhase, setInitialPhase] = useState(true);
 
   const closeModal = () => {
     setModalLoad(false);
     setModal(false);
   };
 
-  const openModal = type => {
+  const openModal = () => {
     setTimeout(() => setModalLoad(true), 300);
     setModal(true);
   };
@@ -38,10 +41,11 @@ const UIMeraki = () => {
         const url = `${process.env.REACT_APP_SERVER_IP}/meraki/camera`;
         const response = await axios.get(url);
         setMeraki({
-          ...response.data.default,
-          name: "default"
+          ...response.data[defaultMeraki],
+          name: defaultMeraki
         });
         setLoading(false);
+        setInitialPhase(false);
       };
       getDefault();
     }
@@ -58,7 +62,7 @@ const UIMeraki = () => {
           </h4>
         </div>
         <UIMerakiOption />
-        {loading ? (
+        {loading && !initialPhase ? (
           <div className="loading-container">
             <img className="loading" src={LoadingGif} alt="Loading" />
           </div>

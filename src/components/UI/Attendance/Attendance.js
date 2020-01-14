@@ -10,8 +10,9 @@ const classes = {
 const UIAttendance = () => {
   const {
     collectionStore: [collection],
-    peopleStore: [people],
     stageStore: [, setStage],
+    attendanceStore: [attendance],
+    attendanceStatusStore: [attendanceStatus],
     isMobile
   } = useContext(StoreContext);
   const collectionExist = Object.keys(collection).length > 0;
@@ -24,21 +25,32 @@ const UIAttendance = () => {
             Attendance
           </h4>
         </div>
-        <div className="main-content" style={{ paddingTop: 25 }}>
-          {isMobile && (
-            <div className="card-overall card-attendance">
-              <div className="viewing-box">
-                Now Viewing: <b>{collection.name}</b>
-                <button
-                  className="button is-small is-dark"
-                  onClick={() => setStage(1)}
-                >
-                  Back
-                </button>
-              </div>
+        <div className="card-options">
+          {isMobile ? (
+            <button
+              className="button is-small is-dark"
+              onClick={() => setStage(1)}
+            >
+              Back
+            </button>
+          ) : (
+            <div />
+          )}
+        </div>
+        <div className="main-content">
+          {attendance.length > 0 && !attendanceStatus && <UIAttendanceList />}
+          {attendance.length === 0 && attendanceStatus && (
+            <div
+              style={{
+                display: "flex",
+                height: "50vmin",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              {attendanceStatus}
             </div>
           )}
-          {people.length > 0 && <UIAttendanceList />}
         </div>
       </div>
     </div>

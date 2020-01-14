@@ -16,6 +16,7 @@ export default ({ children }) => {
   const [collectionList, setCollectionList] = useState([]);
   const [people, setPeople] = useState([]);
   const [attendance, setAttendance] = useState([]);
+  const [attendanceStatus, setAttendanceStatus] = useState("");
 
   const store = {
     isMobile: size.width < 1440,
@@ -29,7 +30,8 @@ export default ({ children }) => {
     collectionStore: [collection, setCollection],
     collectionListStore: [collectionList, setCollectionList],
     peopleStore: [people, setPeople],
-    attendanceStore: [attendance, setAttendance]
+    attendanceStore: [attendance, setAttendance],
+    attendanceStatusStore: [attendanceStatus, setAttendanceStatus]
   };
 
   return (

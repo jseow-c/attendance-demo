@@ -17,6 +17,8 @@ const UIMerakiOptionTitle = ({ name, checkNav, onClick }) => {
 
 const UIMerakiOption = () => {
   const {
+    isMobile,
+    stageStore: [, setStage],
     cameraTypeStore: [cameraType, setCameraType]
   } = useContext(StoreContext);
   const checkNav = name =>
@@ -26,17 +28,28 @@ const UIMerakiOption = () => {
   };
   const titleProps = { checkNav, onClick };
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        margin: "15px 0 10px 0"
-      }}
-    >
+    <div className="card-options">
+      {isMobile ? (
+        <button className="button is-small is-dark" onClick={() => setStage(0)}>
+          Back
+        </button>
+      ) : (
+        <div />
+      )}
       <div className="tags has-addons">
         <UIMerakiOptionTitle {...titleProps} name="static" />
         <UIMerakiOptionTitle {...titleProps} name="sense" />
       </div>
+      {isMobile ? (
+        <button
+          className="button is-small is-dark"
+          style={{ opacity: 0, cursor: "default" }}
+        >
+          Next
+        </button>
+      ) : (
+        <div />
+      )}
     </div>
   );
 };
