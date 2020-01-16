@@ -34,6 +34,7 @@ router.delete(`${aPersonString}/:person_id`, controller.a_person_delete);
 router.post(`${aCompareString}`, controller.a_person_compare);
 
 router.post("/meraki/snap/:camera_name", controller.meraki_snap);
+router.post("/meraki/camera/mqtt", controller.meraki_mqtt);
 router.get("/meraki/camera", controller.meraki_list);
 router.post("/meraki/camera", controller.meraki_update);
 

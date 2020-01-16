@@ -53,3 +53,4 @@ exports.meraki_snap = (req, res) => merakiController.snap(req, res, merakiData);
 exports.meraki_list = (req, res) => merakiController.list(req, res, merakiData);
 exports.meraki_update = (req, res) =>
   merakiController.update(req, res, setMerakiInfo);
+exports.meraki_mqtt = (req, res) => merakiController.mqtt_check(req, res);

@@ -14,7 +14,7 @@ export const cardVariant = {
 
 export const modalVariant = {
   hidden: {
-    height: ["calc(100% - 80px)", "calc(90% - 90px)", "calc(0% - 0px)"],
+    height: ["calc(100% - 65px)", "calc(90% - 58.5px)", "calc(0% - 0px)"],
     padding: ["7vmin 5.5vmin", "0vmin 0vmin", "0vmin 0vmin"],
     transition: {
       duration: 0.2,
@@ -24,7 +24,7 @@ export const modalVariant = {
     }
   },
   visible: {
-    height: ["calc(0% - 0px)", "calc(90% - 90px)", "calc(100% - 80px)"],
+    height: ["calc(0% - 0px)", "calc(90% - 58.5px)", "calc(100% - 65px)"],
     padding: ["0vmin 0vmin", "0vmin 0vmin", "7vmin 5.5vmin"],
     transition: {
       duration: 0.2,

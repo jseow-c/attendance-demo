@@ -16,7 +16,7 @@ const defaultMeraki = "default";
 const UIMeraki = () => {
   const {
     collectionStore: [collection],
-    merakiStore: [, setMeraki]
+    merakiStore: [meraki, setMeraki]
   } = useContext(StoreContext);
 
   const [modal, setModal] = useState(false);
@@ -47,9 +47,12 @@ const UIMeraki = () => {
         setLoading(false);
         setInitialPhase(false);
       };
-      getDefault();
+      if (Object.keys(meraki).length > 0) {
+        setLoading(false);
+        setInitialPhase(false);
+      } else getDefault();
     }
-  }, [loading, setMeraki, setLoading]);
+  }, [meraki, loading, setMeraki, setLoading]);
 
   const collectionExist = Object.keys(collection).length > 0;
 

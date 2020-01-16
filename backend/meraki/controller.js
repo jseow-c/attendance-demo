@@ -1,3 +1,4 @@
+const mqtt = require("mqtt");
 const fetch = require("node-fetch");
 const options = require("./options");
 const misc = require("../misc");
@@ -47,4 +48,39 @@ exports.snap = async (req, res, data) => {
     await sleep(500);
   }
   return res.json({ image });
+};
+
+exports.mqtt_check = async (req, res) => {
+  // mqttSense is the topic to listen to
+  const mqttSense = req.body.mqtt;
+  // connect to mqtt server and subscribe to mqtt settings
+  const client = mqtt.connect(`mqtt://${process.env.MQTT_SERVER}`);
+  client.on("connect", function() {
+    client.subscribe(mqttSense, function(err) {
+      console.log("subscribed");
+    });
+  });
+  const timeoutFunction = setTimeout(() => {
+    client.end();
+    res.json({ check: false });
+  }, 10000);
+  client.on("message", async (topic, message) => {
+    if (topic === mqttSense) {
+      const msgBuffer = JSON.parse(message.toString("ascii"));
+      let peopleDetected = 0;
+      if (Object.keys(msgBuffer).includes("counts")) {
+        peopleDetected = msgBuffer.counts.person > 0;
+      } else if (Object.keys(msgBuffer).includes("objects")) {
+        peopleDetected =
+          msgBuffer.objects.filter(i => i.type === "person").length > 0;
+      }
+      if (peopleDetected) {
+        clearTimeout(timeoutFunction);
+        client.unsubscribe(mqttSense);
+        client.end();
+        console.log("people found.");
+        res.json({ check: true });
+      }
+    }
+  });
 };
