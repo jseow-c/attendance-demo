@@ -78,7 +78,6 @@ exports.mqtt_check = async (req, res) => {
         clearTimeout(timeoutFunction);
         client.unsubscribe(mqttSense);
         client.end();
-        console.log("people found.");
         res.json({ check: true });
       }
     }

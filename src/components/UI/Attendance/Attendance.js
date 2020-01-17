@@ -20,11 +20,13 @@ const UIAttendance = () => {
   return (
     <div className={`card card-register ${isMobile ? "" : "card-none"}`}>
       <div className="card-content" style={{ height: "100%" }}>
+        {/* Title */}
         <div className="nav">
           <h4 className={collectionExist ? classes.active : classes.notActive}>
             Attendance
           </h4>
         </div>
+        {/* Navigation Bar */}
         <div className="card-options">
           {isMobile ? (
             <button
@@ -37,7 +39,12 @@ const UIAttendance = () => {
             <div />
           )}
         </div>
+        {/* Main Content */}
         <div className="main-content">
+          {/* 
+            if attendance available, show attendance in a list of cards 
+            else show a placeholder
+          */}
           {attendance.length > 0 && !attendanceStatus && <UIAttendanceList />}
           {attendance.length === 0 && attendanceStatus && (
             <div

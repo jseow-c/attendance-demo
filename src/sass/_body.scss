@@ -67,3 +67,23 @@ body {
     }
   }
 }
+
+.analysis-loader {
+  display: flex;
+  margin-bottom: 25px;
+  .analysis-title {
+    font-size: calc(5px + 1vw);
+    font-weight: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    span {
+      line-height: 1;
+    }
+    .analysis-number {
+      font-size: calc(57px + 1vw);
+      font-weight: 800;
+    }
+  }
+}

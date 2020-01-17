@@ -11,6 +11,7 @@ const animatePresenceProps = {
 
 const UIAttendanceCard = ({ item, cardVariant }) => {
   const { isMobile } = useContext(StoreContext);
+  // format base64 string if necessary
   const source = item.thumbnail
     ? `data:image/png;base64, ${item.thumbnail}`
     : PersonLogo;
@@ -18,6 +19,7 @@ const UIAttendanceCard = ({ item, cardVariant }) => {
     <motion.div variants={cardVariant} className="collection-container">
       <div className="card card-collection">
         <div className="content">
+          {/* Avatar (Left) */}
           <div className="person-icon">
             <img
               style={{
@@ -30,7 +32,9 @@ const UIAttendanceCard = ({ item, cardVariant }) => {
               alt="Person"
             />
           </div>
+          {/* Name (Center) */}
           <div className="title">{item.person_name}</div>
+          {/* Confidence (Right) */}
           <AnimatePresence>
             <motion.div
               {...animatePresenceProps}

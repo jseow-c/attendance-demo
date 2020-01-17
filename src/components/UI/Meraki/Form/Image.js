@@ -6,6 +6,12 @@ import ImageJL from "../../../../img/sample_meraki_self.jpg";
 import ImageCH from "../../../../img/sample_meraki_ch.jpg";
 import LoadingGif from "../../../../img/loading.gif";
 
+/**
+ * Converts an image buffer to a base64 string.
+ * @param {buffer} file Image Buffer
+ *
+ * @return {string} Base64 String of the Image Buffer
+ */
 const toBase64 = file =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();

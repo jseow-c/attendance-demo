@@ -15,6 +15,7 @@ const UIMerakiForm = ({ openModal }) => {
 
   return (
     <>
+      {/* Title/Nav */}
       <div className="viewing-box" style={{ marginBottom: 30 }}>
         Now Viewing: <b>{collection.name}</b>
         <span className="a-href is-pulled-right" onClick={openModal}>
@@ -23,11 +24,13 @@ const UIMerakiForm = ({ openModal }) => {
             : null}
         </span>
       </div>
+      {/* Loading Placeholder */}
       {loading && (
         <div className="loading-container">
           <img className="loading" src={LoadingGif} alt="Loading" />
         </div>
       )}
+      {/* Main Contents - depends on nav */}
       {!loading && cameraType === "static" && (
         <UIMerakiFormStatic loading={loading} setLoading={setLoading} />
       )}

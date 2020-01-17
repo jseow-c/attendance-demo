@@ -24,7 +24,8 @@ const resizeBase64 = async base64Image => {
 
   var buffer = new Buffer.from(imageData, "base64");
   const resizedBuffer = await sharp(buffer)
-    .resize({ width: 350 })
+    .jpeg({ quality: 60 })
+    // .resize({ width: 350 })
     .toBuffer();
   return resizedBuffer.toString("base64");
 };
