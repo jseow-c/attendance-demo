@@ -3,13 +3,23 @@ const controller = require("./controller");
 
 const router = express.Router();
 
+//
+// [Template Strings]
+//
+
+// Intercorp
 const iCollectionString = "/intercorp/collection";
 const iPersonString = "/intercorp/collection/:collection_id/person";
 const iCompareString = "/intercorp/collection/:collection_id/compare";
 
+// AWS
 const aCollectionString = "/aws/collection";
 const aPersonString = "/aws/collection/:collection_id/person";
 const aCompareString = "/aws/collection/:collection_id/compare";
+
+//
+// [Routes]
+//
 
 // Intercorp
 router.get(`${iCollectionString}`, controller.i_collection_list);
@@ -33,6 +43,7 @@ router.delete(`${aPersonString}/:person_id`, controller.a_person_delete);
 
 router.post(`${aCompareString}`, controller.a_person_compare);
 
+// Meraki
 router.post("/meraki/snap/:camera_name", controller.meraki_snap);
 router.post("/meraki/camera/mqtt", controller.meraki_mqtt);
 router.get("/meraki/camera", controller.meraki_list);

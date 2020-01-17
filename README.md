@@ -1,3 +1,63 @@
+# Attendance Demo
+
+Attendance Demo is a React/NodeJS application that utilize Cisco Meraki to take people's attendance.
+
+## Installation and Usage
+
+1. Git Clone this package first.
+
+```bash
+git clone git@www-github.cisco.com:jseow/attend-demo.git
+```
+
+2. Go to the folder
+
+```bash
+cd /go/to/where/you/git/clone/path
+```
+
+3. Use the package manager [npm](https://nodejs.org/en/) to install Attendance-Demo.
+
+```bash
+npm install
+```
+
+4. Copy a **.env** file from **.env.example**
+
+```bash
+cp .env.example .env
+```
+
+5. Copy content given separately to you
+
+> It can come either through a separate email or some message
+
+6. Build your UI Demo
+
+```bash
+npm run build
+```
+
+7. Start the server
+
+```bash
+node server.js
+```
+
+8. Go to your URL
+
+Click here to go to your [dashboard]("http://localhost:4200/dashboard").
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
