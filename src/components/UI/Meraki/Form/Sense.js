@@ -5,12 +5,6 @@ import { nullImage } from "./nullImage";
 import LoadingGif from "../../../../img/loading.gif";
 import UIMerakiFormLoader from "./Loader";
 
-const sleep = ms => {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
-};
-
 const UIMerakiFormSense = () => {
   const {
     merakiStore: [meraki],
