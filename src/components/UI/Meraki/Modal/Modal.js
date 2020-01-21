@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import UIMerakiModalForm from "./Form";
 import UIMerakiModalList from "./List";
 import UIMerakiModalOption from "./Option";
-import { modalVariant, modalChildVariant } from "./variants";
+import { modalVariant, modalChildVariant } from "../../variants";
 import axios from "axios";
 
 const UIMerakiModal = ({ modal, modalLoad, closeModal }) => {

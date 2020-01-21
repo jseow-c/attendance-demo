@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import useField from "./useField";
 import UIMerakiModalField from "./Field";
-import { listVariants, cardVariant } from "./variants";
+import { listVariants, cardVariant } from "../../variants";
 
 const UIMerakiModalForm = ({ list, setList, setOption }) => {
   const nameProps = useField({});

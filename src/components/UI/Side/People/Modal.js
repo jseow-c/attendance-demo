@@ -2,7 +2,7 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import UISideCollectionFormAdd from "./Form/Add";
 import UISideCollectionFormDelete from "./Form/Delete";
-import { modalVariant } from "./variants";
+import { modalVariant } from "../../variants";
 
 const UISideCollectionModal = ({
   modal,

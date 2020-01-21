@@ -1,6 +1,6 @@
 export const listVariants = {
   visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.75 }
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
   },
   hidden: {
     transition: { staggerChildren: 0.05, staggerDirection: -1 }
@@ -14,7 +14,7 @@ export const cardVariant = {
 
 export const modalVariant = {
   hidden: {
-    height: ["calc(100% - 100px)", "calc(90% - 90px)", "calc(0% - 0px)"],
+    height: ["calc(100% - 4.75rem)", "calc(90% - 4.275rem)", "calc(0% - 0px)"],
     padding: ["7vmin 5.5vmin", "0vmin 0vmin", "0vmin 0vmin"],
     transition: {
       duration: 0.2,
@@ -24,7 +24,7 @@ export const modalVariant = {
     }
   },
   visible: {
-    height: ["calc(0% - 0px)", "calc(90% - 90px)", "calc(100% - 100px)"],
+    height: ["calc(0% - 0px)", "calc(90% - 4.275rem)", "calc(100% - 4.75rem)"],
     padding: ["0vmin 0vmin", "0vmin 0vmin", "7vmin 5.5vmin"],
     transition: {
       duration: 0.2,

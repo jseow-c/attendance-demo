@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { StoreContext } from "../../../../context";
-import { modalChildVariant } from "./variants";
+import { modalChildVariant } from "../../variants";
 import { isAlphaNumeric, isLowerCase } from "../../../../functions/validation";
 
 import axios from "axios";

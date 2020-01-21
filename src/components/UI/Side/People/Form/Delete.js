@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { StoreContext } from "../../../../../context";
 import UISidePeopleCard from "../Card";
-import { modalChildVariant, cardVariant } from "../variants";
+import { modalChildVariant, cardVariant } from "../../../variants";
 import axios from "axios";
 
 const UISidePeopleFormDelete = ({ closeModal, deleteItem }) => {

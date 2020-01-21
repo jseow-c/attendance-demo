@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 
+/**
+ * Provides a React Hook to get Window Width and Height
+ */
 function useWindowSize() {
   const isClient = typeof window === "object";
 

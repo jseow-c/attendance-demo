@@ -91,6 +91,7 @@ const UIMerakiFormSense = () => {
 
   return (
     <div className="image-container">
+      {/* Image Preview */}
       <div className="field w-100">
         <div className="avatar-upload avatar-meraki">
           <div className="avatar-preview">
@@ -106,6 +107,7 @@ const UIMerakiFormSense = () => {
           </div>
         </div>
       </div>
+      {/* Sense Statistic Display */}
       <div
         className="analysis-loader"
         style={!imageLoading ? { opacity: 0 } : {}}
@@ -116,6 +118,7 @@ const UIMerakiFormSense = () => {
           <span className="analysis-number">{retries}</span>
         </div>
       </div>
+      {/* Sense Button */}
       <div className="control" onClick={onSubmit}>
         <button className={`button is-link ${loading ? "is-loading" : ""}`}>
           Activate MV Sense

@@ -92,7 +92,7 @@
   .main-content {
     height: calc(100% - 70px);
     .collection-container-list {
-      height: calc(100% - 210px);
+      height: calc(100% - 180px);
       overflow: auto;
       @extend %scroll-bar;
       padding: 0 1.5rem;

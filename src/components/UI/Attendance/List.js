@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { StoreContext } from "../../../context";
 import { motion } from "framer-motion";
-import { listVariants, cardVariant } from "./variants";
+import { listVariants, cardVariant } from "../variants";
 import UIAttendanceCard from "./Card";
 
 const UIAttendanceList = () => {

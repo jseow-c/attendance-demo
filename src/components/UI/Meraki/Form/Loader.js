@@ -5,9 +5,9 @@ const UIMerakiFormLoader = ({ retries }) => {
 
   useEffect(() => {
     let timer;
+    // loop function to do a countdown for 10 seconds
     const loopTimer = async _ => {
       await new Promise(resolve => setTimeout(resolve, 750));
-      console.log("ticking");
       for (let x = 0; x < 10; x++) {
         timer = await new Promise(resolve =>
           setTimeout(() => {
@@ -16,6 +16,9 @@ const UIMerakiFormLoader = ({ retries }) => {
         );
       }
     };
+
+    // triggered by retries excluding the first time
+    // used to reset and kickstart the timer
     if (retries > 0 && retries !== 4) {
       setNumber(10);
       if (timer) clearTimeout(timer);

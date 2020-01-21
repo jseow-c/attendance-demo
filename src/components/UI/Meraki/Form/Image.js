@@ -5,26 +5,15 @@ import { StoreContext } from "../../../../context";
 import ImageJL from "../../../../img/sample_meraki_self.jpg";
 import ImageCH from "../../../../img/sample_meraki_ch.jpg";
 import LoadingGif from "../../../../img/loading.gif";
-
-/**
- * Converts an image buffer to a base64 string.
- * @param {buffer} file Image Buffer
- *
- * @return {string} Base64 String of the Image Buffer
- */
-const toBase64 = file =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
+import { toBase64 } from "../../../../functions/misc";
 
 const UIMerakiFormImage = () => {
   const {
     imageStore: [image, setImage],
     merakiStore: [meraki]
   } = useContext(StoreContext);
+
+  // function to get static image and set it into imageStore
   const setFixImage = async uri => {
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -35,6 +24,7 @@ const UIMerakiFormImage = () => {
   return (
     <div className="field w-100">
       <div className="avatar-upload avatar-meraki">
+        {/* Button to use Meraki Camera */}
         <div className="avatar-edit">
           <label
             onClick={async () => {
@@ -48,6 +38,7 @@ const UIMerakiFormImage = () => {
             <i className="fab fa-medium-m"></i>
           </label>
         </div>
+        {/* Button to upload image */}
         <div className="avatar-edit avatar-cam">
           <input
             type="file"
@@ -62,16 +53,19 @@ const UIMerakiFormImage = () => {
             <i className="fas fa-camera"></i>
           </label>
         </div>
+        {/* Button for CH static image */}
         <div className="avatar-edit avatar-ch">
           <label onClick={() => setFixImage(ImageCH)}>
             <i className="fas fa-user-tie"></i>
           </label>
         </div>
+        {/* Button for JL static image */}
         <div className="avatar-edit avatar-jl">
           <label onClick={() => setFixImage(ImageJL)}>
             <i className="fas fa-child"></i>
           </label>
         </div>
+        {/* Image Preview */}
         <div className="avatar-preview">
           <div
             id="imagePreview"

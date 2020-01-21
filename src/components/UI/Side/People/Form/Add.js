@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { StoreContext } from "../../../../../context";
 import UISidePeopleFormInput from "./Input";
 import UISidePeopleFormImage from "./Image";
-import { modalChildVariant } from "../variants";
+import { modalChildVariant } from "../../../variants";
 import { isAlphaNumericSpace } from "../../../../../functions/validation";
 
 const UISidePeopleFormAdd = ({ closeModal }) => {
