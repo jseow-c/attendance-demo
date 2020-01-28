@@ -1,11 +1,13 @@
 {
     "cSpell.words": [
+        "apikey",
         "dbparams",
         "dbresponse",
         "dynamodb",
         "etag",
         "intercorp",
         "meraki",
+        "props",
         "rekognition"
     ]
 }

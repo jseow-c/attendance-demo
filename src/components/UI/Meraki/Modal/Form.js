@@ -11,6 +11,7 @@ const UIMerakiModalForm = ({ list, setList, setOption }) => {
   const networkProps = useField({ initialStatus: "Network invalid." });
   const serialProps = useField({ initialStatus: "Serial invalid." });
   const mqttProps = useField({ initialStatus: "MQTT address invalid." });
+  const apikeyProps = useField({ initialStatus: "" });
 
   const [loading, setLoading] = useState(false);
 
@@ -26,12 +27,16 @@ const UIMerakiModalForm = ({ list, setList, setOption }) => {
       const url = `${process.env.REACT_APP_SERVER_IP}/meraki/camera`;
       const options = { "Content-Type": "application/json" };
       const newList = list.slice();
+      let apiKey = list[list.findIndex(i => i.name === "jlmv12")].apiKey;
+      if (apikeyProps.value) {
+        apiKey = apikeyProps.value;
+      }
       newList.push({
         name: nameProps.value,
         networkID: networkProps.value,
         camSerial: serialProps.value,
         mqttSense: mqttProps.value,
-        apiKey: list[list.findIndex(i => i.name === "jlmv12")].apiKey
+        apiKey
       });
       const postData = {
         data: newList.reduce((acc, cur) => {
@@ -56,11 +61,31 @@ const UIMerakiModalForm = ({ list, setList, setOption }) => {
           <UIMerakiModalField {...serialProps} name="Serial" />
         </div>
       </motion.div>
-      <motion.div className="field-mb" variants={cardVariant}>
-        <UIMerakiModalField {...networkProps} name="Network ID" />
+      <motion.div className="columns" variants={cardVariant}>
+        <div className="column is-half pt-0 pb-0">
+          <UIMerakiModalField {...networkProps} name="Network ID" />
+        </div>
+        <div className="column is-half pt-0 pb-0">
+          <UIMerakiModalField {...mqttProps} name="MQTT Address" />
+        </div>
       </motion.div>
+
       <motion.div className="field-mb" variants={cardVariant}>
-        <UIMerakiModalField {...mqttProps} name="MQTT Address" />
+        <div className="field">
+          <label className="label">API Key</label>
+          <div className="control">
+            <input
+              className="input is-secondary"
+              type="text"
+              placeholder="Optional"
+              value={apikeyProps.value}
+              onChange={apikeyProps.onChange}
+            />
+          </div>
+          <p className="help is-secondary">
+            If left unfilled - will use Jun Liang's API key.
+          </p>
+        </div>
       </motion.div>
       <motion.div variants={cardVariant} className="control" onClick={onSubmit}>
         <button
