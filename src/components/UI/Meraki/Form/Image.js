@@ -30,7 +30,8 @@ const UIMerakiFormImage = () => {
             onClick={async () => {
               setLoading(true);
               const url = `${process.env.REACT_APP_SERVER_IP}/meraki/snap/${meraki.name}`;
-              const response = await axios.post(url);
+              const postData = { timestamp: new Date().toISOString() };
+              const response = await axios.post(url, postData);
               setImage(response.data.image);
               setLoading(false);
             }}

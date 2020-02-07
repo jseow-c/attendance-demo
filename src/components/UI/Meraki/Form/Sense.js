@@ -23,9 +23,10 @@ const UIMerakiFormSense = () => {
   const [retries, setRetries] = useState(4);
 
   // take image using meraki api - through backend nodejs svr
-  const snapMeraki = async () => {
+  const snapMeraki = async timestamp => {
     const merakiUrl = `${process.env.REACT_APP_SERVER_IP}/meraki/snap/${meraki.name}`;
-    const response = await axios.post(merakiUrl);
+    const postData = { timestamp };
+    const response = await axios.post(merakiUrl, postData);
     setImage(response.data.image);
     setImageLoading(false);
     return response.data.image;
@@ -46,7 +47,7 @@ const UIMerakiFormSense = () => {
     const options = { "Content-Type": "application/json" };
     const postData = { mqtt: meraki.mqttSense };
     const resultResponse = await axios.post(url, postData, options);
-    return resultResponse.data.check;
+    return resultResponse.data;
   };
 
   // termination function used during sensing/analyzing
@@ -67,11 +68,11 @@ const UIMerakiFormSense = () => {
       setImageLoading(true);
 
       // connect to mqtt server and check if there's people in the camera
-      const check = await checkMqtt();
+      const checkData = await checkMqtt();
 
-      if (check) {
+      if (checkData.check) {
         // snap image and analyze
-        const image = await snapMeraki();
+        const image = await snapMeraki(checkData.timestamp);
         const result = await senseImage(image);
         setAttendance(result);
         if (result.length === 0) {

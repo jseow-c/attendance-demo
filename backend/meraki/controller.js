@@ -44,6 +44,7 @@ exports.update = async (req, res, setData) => {
  */
 exports.snap = async (req, res, data) => {
   const { networkID, camSerial, apiKey } = data[req.params.camera_name];
+  const timestamp = req.body.timestamp;
   const headers = { "X-Cisco-Meraki-API-Key": apiKey };
 
   // call api to do the snapshot
@@ -51,6 +52,7 @@ exports.snap = async (req, res, data) => {
   const url = `${baseUrl}/networks/${networkID}/cameras/${camSerial}/snapshot`;
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
+    body: JSON.stringify({ timestamp }),
     headers
   });
   const responseJson = await response.json();
@@ -90,7 +92,7 @@ exports.mqtt_check = async (req, res) => {
   // api call ends in 10 seconds
   const timeoutFunction = setTimeout(() => {
     client.end();
-    res.json({ check: false });
+    res.json({ check: false, timestamp: null });
   }, 10000);
 
   // listens to the topic and check if human can be detected
@@ -113,7 +115,10 @@ exports.mqtt_check = async (req, res) => {
         clearTimeout(timeoutFunction);
         client.unsubscribe(mqttSense);
         client.end();
-        res.json({ check: true });
+        res.json({
+          check: true,
+          timestamp: new Date(msgBuffer.ts).toISOString()
+        });
       }
     }
   });
