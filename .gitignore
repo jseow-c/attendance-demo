@@ -26,3 +26,6 @@ yarn-error.log*
 # environment variables
 .env
 meraki.json
+
+#log files
+mqtt.log

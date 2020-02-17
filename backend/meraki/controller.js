@@ -1,3 +1,4 @@
+const fs = require("fs");
 const mqtt = require("mqtt");
 const fetch = require("node-fetch");
 const options = require("./options");
@@ -80,10 +81,15 @@ exports.snap = async (req, res, data) => {
 exports.mqtt_check = async (req, res) => {
   const mqttSense = req.body.mqtt;
 
+  // start logger
+  const logger = fs.createWriteStream("mqtt.log", { flags: "a" });
+  logger.write(`[${new Date().toISOString()}] MV Sense Initiated\n`);
+
   // connect to mqtt server and subscribe to mqtt settings
   const client = mqtt.connect(`mqtt://${process.env.MQTT_SERVER}`);
   client.on("connect", function() {
     client.subscribe(mqttSense, function(err) {
+      logger.write(`[${new Date().toISOString()}] MQTT Subscribed\n`);
       console.log("subscribed");
     });
   });
@@ -91,6 +97,8 @@ exports.mqtt_check = async (req, res) => {
   // failsafe timeout function to ensure
   // api call ends in 10 seconds
   const timeoutFunction = setTimeout(() => {
+    logger.write(`[${new Date().toISOString()}] MV Sense Ended\n`);
+    logger.end();
     client.end();
     res.json({ check: false, timestamp: null });
   }, 10000);
@@ -98,6 +106,10 @@ exports.mqtt_check = async (req, res) => {
   // listens to the topic and check if human can be detected
   client.on("message", async (topic, message) => {
     if (topic === mqttSense) {
+      logger.write(
+        `[${new Date().toISOString()}] Message: ${message.toString("ascii")}\n`
+      );
+
       const msgBuffer = JSON.parse(message.toString("ascii"));
       let peopleDetected = 0;
 
@@ -114,6 +126,7 @@ exports.mqtt_check = async (req, res) => {
       if (peopleDetected) {
         clearTimeout(timeoutFunction);
         client.unsubscribe(mqttSense);
+        logger.end();
         client.end();
         res.json({
           check: true,
